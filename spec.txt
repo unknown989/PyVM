@@ -1,0 +1,22 @@
+PyVM is a registry-based virtual machine
+
+it has the following syntax
+
+[OPCODE] [...OPERANDS]
+
+
+
+OPCODE's:
+add [num or reg1] [num or reg2] [reg3]                ADD operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+sub [num or reg1] [num or reg2] [reg3]                SUB operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+and [num or reg1] [num or reg2] [reg3]                AND operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+or [num or reg1] [num or reg2] [reg3]                 OR operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+mov [num or reg1] [reg2]                              move registry or number to reg2
+dbg [num or reg1],...                                 print a debug message of registry or number to screen
+
+
+
+
+REGISTRIES:
+r1, r2, r3, ..., rn
+where n is the max size specified in config.toml

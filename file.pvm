@@ -1,0 +1,10 @@
+mov 1, r0
+mov 2, r1
+add r0, r1, r2
+dbg r2
+sub r2, 1, r2
+dbg r2
+and r2, 1, r2
+dbg r2
+or r2, 4, r2
+dbg r2
