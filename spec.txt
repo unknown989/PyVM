@@ -4,11 +4,17 @@ it has the following syntax
 
 [OPCODE] [...OPERANDS]
 
+ADD: addition
+SUB: subdivision
+MUT: mutliplication
+DIV: division
 
 
 OPCODE's:
 add [num or reg1] [num or reg2] [reg3]                ADD operation between reg1 or number1 and reg2 or number2 and store result to reg3 
 sub [num or reg1] [num or reg2] [reg3]                SUB operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+mut [num or reg1] [num or reg2] [reg3]                MUT operation between reg1 or number1 and reg2 or number2 and store result to reg3 
+div [num or reg1] [num or reg2] [reg3]                DIV operation between reg1 or number1 and reg2 or number2 and store result to reg3 
 and [num or reg1] [num or reg2] [reg3]                AND operation between reg1 or number1 and reg2 or number2 and store result to reg3 
 or [num or reg1] [num or reg2] [reg3]                 OR operation between reg1 or number1 and reg2 or number2 and store result to reg3 
 mov [num or reg1] [reg2]                              move registry or number to reg2

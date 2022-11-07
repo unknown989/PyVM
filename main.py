@@ -10,6 +10,8 @@ class Opcodes(Enum):
     DBG = 3
     AND = 4
     OR = 5
+    MUT = 6
+    DIV = 7
 
     def get_str(num):
         match num:
@@ -21,6 +23,14 @@ class Opcodes(Enum):
                 return "MOV"
             case 3:
                 return "DBG"
+            case 4:
+                return "AND"
+            case 5:
+                return "OR"
+            case 6:
+                return "MUT"
+            case 7:
+                return "DIV"
             case _:
                 return "UNKOWN"
 
@@ -80,11 +90,8 @@ class Instruction:
     def __init__(self, opcode: Opcodes, operands: list[Operand]) -> None:
         self.opcode: Opcodes = opcode
         self.operands: list[Operand] = operands
-
     def __repr__(self) -> str:
         return f"(Opcode: '{Opcodes.get_str(self.opcode)}', {self.operands})\n)"
-
-
 class Machine:
     def __init__(self, max_size: int) -> None:
         self.registry_stack = RegistryStack(max_size)
@@ -99,7 +106,48 @@ class Machine:
     def run(self):
         for ins in self.instructions:
             match ins.opcode:
+                case Opcodes.DIV:
+                    # divising first operand and second operand and store to third operand
+                    s = 0
+                    fo = ins.operands[0]
+                    vfo = fo.get_data()
+                    if fo.check_if_registry() == True:
+                        vfo = self.registry_stack.get_registry_data(vfo)
+                    s = vfo
 
+                    so = ins.operands[1]
+                    vso = so.get_data()
+                    if so.check_if_registry() == True:
+                        vso = self.registry_stack.get_registry_data(vso)
+                    s = s // vso
+
+                    if ins.operands[2].check_if_registry() == True:
+                        self.registry_stack.set_registry_data(
+                            ins.operands[2].get_data(), s)
+                    else:
+                        raise TypeError(
+                            "Operand should be registry, but it is not")
+                case Opcodes.MUT:
+                    # mutliplying first operand and second operand and store to third operand
+                    s = 0
+                    fo = ins.operands[0]
+                    vfo = fo.get_data()
+                    if fo.check_if_registry() == True:
+                        vfo = self.registry_stack.get_registry_data(vfo)
+                    s = vfo
+
+                    so = ins.operands[1]
+                    vso = so.get_data()
+                    if so.check_if_registry() == True:
+                        vso = self.registry_stack.get_registry_data(vso)
+                    s = s * vso
+
+                    if ins.operands[2].check_if_registry() == True:
+                        self.registry_stack.set_registry_data(
+                            ins.operands[2].get_data(), s)
+                    else:
+                        raise TypeError(
+                            "Operand should be registry, but it is not")
                 case Opcodes.OR:
                     # or-ing first operand and second operand and store to third operand
                     s = 0
@@ -202,8 +250,6 @@ class Machine:
                             reg = "r"+str(val)
                             val = self.registry_stack.get_registry_data(val)
                         print(f"DEBUG: {reg}-> ", val)
-
-
 class Parser:
 
     def parse(filename: str) -> list[Instruction]:
@@ -252,6 +298,10 @@ class Parser:
                         instructions.append(Instruction(Opcodes.AND, operands))
                     case "or":
                         instructions.append(Instruction(Opcodes.OR, operands))
+                    case "mut":
+                        instructions.append(Instruction(Opcodes.MUT, operands))
+                    case "div":
+                        instructions.append(Instruction(Opcodes.DIV, operands))
         return instructions
 
 
